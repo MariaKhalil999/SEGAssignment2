@@ -58,6 +58,10 @@ public class ChatClient extends AbstractClient
   {
     clientUI.display(msg.toString());
   }
+  
+  
+  
+  //Exercise 2a (the two methods below)
 
   /**
    * This method handles all data coming from the UI            
@@ -66,9 +70,24 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromClientUI(String message)
   {
+//	if(message.charAt(0) == '#') {
+//		try {
+//			handleCommand(message);
+//		}
+//		catch(IOException e){
+//			System.out.println(e);
+//		}
+//	}
+	  
     try
     {
-      sendToServer(message);
+      if(message.startsWith("#")) {
+    	  handleCommand(message);
+      }
+      else {
+    	  sendToServer(message); 
+      }
+      
     }
     catch(IOException e)
     {
@@ -76,6 +95,75 @@ public class ChatClient extends AbstractClient
         ("Could not send message to server.  Terminating client.");
       quit();
     }
+  }
+  
+  /**
+   * This method handles commands that the user of the client types, in order to 
+   * perform special functions.
+   * 
+   * @param command
+   * @throws IOException
+   */
+  public void handleCommand(String message) throws IOException{ //Exercise 2a
+	  
+	  String[] splitCommand = message.split(" ", 2);
+	  String command = splitCommand[0];
+	  
+	  if(command.equals("#quit")) {
+		  quit();
+	  }
+	  else if(command.equals("#logoff")) {//we don't want to do system.exit(0), we want to close
+		  closeConnection();
+	  }
+	  else if(command.equals("#sethost")) {
+		  if(!isConnected()) {
+			  setHost(splitCommand[1]);
+			  //String host = splitCommand[1];
+		  }
+		  else {
+			  clientUI.display("Please log off in order to set host.");
+		  }
+	  }
+	  else if(command.equals("#setport")) {
+		  if(!isConnected()) {
+			  setPort(Integer.parseInt(splitCommand[1]));
+			  //String port = splitCommand[1];
+		  }
+		  else {
+			  clientUI.display("Please log off in order to set port.");
+		  }
+	  }
+	  else if(command.equals("#login")) {
+		  if(!isConnected()) {
+			  try {
+				  openConnection();
+			  }
+			  catch(IOException e) {
+				  clientUI.display("Couldn't login.");
+			  }
+		  }
+		  else {
+			  clientUI.display("Unable to login when already logged in.");
+			  //throw new IOException("Unable to login when already logged in.");
+		  }
+	  }
+	  else if(command.equals("#gethost")) {
+		  clientUI.display("The host is " + getHost());
+	  }
+	  else if(command.equals("#getport")) {
+		  clientUI.display("The port is " + getPort());
+	  }
+	  else {
+		  throw new IOException("Enter a command");
+	  }
+		  
+	  
+	  //for login, make the message "Unable to login when already logged in."
+	  
+//	  String[] splitCommand = message.split(" ", 2);
+//	  String command = splitCommand[0];
+	  
+	  //if(command.).
   }
   
   /**
@@ -91,10 +179,27 @@ public class ChatClient extends AbstractClient
     System.exit(0);
   }
   
+  /**
+	 * Implements the hook method called each time an exception is thrown by the client's
+	 * thread that is waiting for messages from the server. The method may be
+	 * overridden by subclasses.
+	 * 
+	 * @param exception
+	 *            the exception raised.
+	 */
+  @Override
   protected void connectionException(Exception e) { //Exercise 1a
-	  clientUI.display("Exception: " + e + " occured");
-	  quit();
+	  clientUI.display("The server is shut down.");
+	  quit(); //or system.exit(0)
   }
+  
+  /**
+	 * Implements the hook method called after the connection has been closed. The default
+	 * implementation does nothing. The method may be overriden by subclasses to
+	 * perform special processing such as cleaning up and terminating, or
+	 * attempting to reconnect.
+	 */
+  @Override
   protected void connectionClosed() { //Exercise 1a
 	  clientUI.display(getHost() + " " + getPort() + " Connection is closed");
   }
