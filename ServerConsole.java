@@ -82,8 +82,8 @@ public class ServerConsole implements ChatIF{
 	    	
 	        message = fromConsole.nextLine();
 	        
-	        System.out.println("Message from server: " + message);
-	        server.sendToAllClients("Message from server: " + message);
+	        System.out.println("SERVER MESSAGE > " + message);
+	        server.sendToAllClients("SERVER MESSAGE > " + message);
 	        
 	        
 	        if(message.startsWith("#")) {
@@ -167,11 +167,11 @@ public class ServerConsole implements ChatIF{
 	    {
 	      
 	      port = DEFAULT_PORT; //Default port value is used if the port is omitted from command line.
-	      System.out.println("Default port 5555.");
+	      //System.out.println("Default port 5555.");
 	    }
 	    catch(NumberFormatException ne) {
 	    	port = DEFAULT_PORT;
-	    	System.out.println("Default port 5555.");
+	    	//System.out.println("Default port 5555.");
 	    }
 	    
 	    ServerConsole server= new ServerConsole(port);

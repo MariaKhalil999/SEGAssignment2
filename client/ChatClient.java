@@ -27,9 +27,16 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
+  
+  /**
+   * Login ID used to identify clients.
+   */
+  private String loginID;
 
   
   //Constructors ****************************************************
+  
+  //Exercise 3 modifications
   
   /**
    * Constructs an instance of the chat client.
@@ -39,11 +46,12 @@ public class ChatClient extends AbstractClient
    * @param clientUI The interface type variable.
    */
   
-  public ChatClient(String host, int port, ChatIF clientUI) 
+  public ChatClient(String loginID, String host, int port, ChatIF clientUI) 
     throws IOException 
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
+    this.loginID = loginID;
     openConnection();
   }
 
@@ -134,18 +142,36 @@ public class ChatClient extends AbstractClient
 		  }
 	  }
 	  else if(command.equals("#login")) {
-		  if(!isConnected()) {
-			  try {
-				  openConnection();
-			  }
-			  catch(IOException e) {
-				  clientUI.display("Couldn't login.");
-			  }
+		  if(isConnected()) {
+			  clientUI.display("Unable to login when already logged in.");
+		  }
+		  if(splitCommand[1] != null) {
+			  openConnection();
+			  loginID = splitCommand[1];
+			  sendToServer("#login " + "<" + loginID + ">");
 		  }
 		  else {
-			  clientUI.display("Unable to login when already logged in.");
-			  //throw new IOException("Unable to login when already logged in.");
+			  clientUI.display("Please input a login ID.");
 		  }
+//		  if(!isConnected()) {
+//			  try {
+//				  if(splitCommand[1] != null) {
+//					  openConnection();
+//					  loginID = splitCommand[1];
+//					  sendToServer("#login " + "<" + loginID + ">");
+//				  }
+//				  else {
+//					  clientUI.display("Please input a login ID."); //NOT WORKING
+//				  }
+//			  }
+//			  catch(IOException e) {
+//				  clientUI.display("Couldn't login.");
+//			  }
+//		  }
+//		  else {
+//			  clientUI.display("Unable to login when already logged in.");
+//			  //throw new IOException("Unable to login when already logged in.");
+//		  }
 	  }
 	  else if(command.equals("#gethost")) {
 		  clientUI.display("The host is " + getHost());
@@ -201,6 +227,10 @@ public class ChatClient extends AbstractClient
   @Override
   protected void connectionClosed() { //Exercise 1a
 	  clientUI.display(getHost() + " " + getPort() + " Connection is closed");
+  }
+  
+  public String getLoginID() {
+	  return loginID;
   }
 }
 //End of ChatClient class

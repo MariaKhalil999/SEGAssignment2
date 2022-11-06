@@ -79,10 +79,25 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient
     (Object msg, ConnectionToClient client)
   {
-    System.out.println("Message received: " + msg + " from " + client);
+	String msgString = msg.toString();
+	
+	if(msgString.startsWith("#login")) {
+		String loginID = msgString.split(" ")[1];
+		System.out.println("Message received: " + msg + " from " + client.getInfo("loginID")); //should be null after first message
+		this.sendToAllClients(loginID + " has logged on.");
+		System.out.println(loginID + " has logged on.");
+		//this.sendToAllClients("Client " + client.getInfo("loginID") + " > " + msg);
+		//this.sendToAllClients("Client " + (String)client.getInfo("loginID") + " > " + msg);
+		client.setInfo("loginID", loginID);
+		
+		return;
+	}
+	  
+    System.out.println("Message received: " + msg + " from " + client.getInfo("loginID"));
     
     //loginID is null right now, should be the actual ID in exercise 3
-    this.sendToAllClients("Client " + (String)client.getInfo("loginID") + " > " + msg); //original was this.sendToAllClients(msg)
+    //this.sendToAllClients("Message received: " + msg + " from " + client.getInfo("loginID"));
+    this.sendToAllClients("Client " + client.getInfo("loginID") + " > " + msg); //original was this.sendToAllClients(msg)
   }
   
   
@@ -95,7 +110,7 @@ public class EchoServer extends AbstractServer
    */
   @Override
   protected void clientConnected(ConnectionToClient client) {
-	  System.out.println("Client is connected.");
+	  System.out.println("A new client has connected to the server.");
   }
   
   /**
