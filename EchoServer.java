@@ -95,7 +95,7 @@ public class EchoServer extends AbstractServer
 	  
     System.out.println("Message received: " + msg + " from " + client.getInfo("loginID"));
     
-    //loginID is null right now, should be the actual ID in exercise 3
+    
     //this.sendToAllClients("Message received: " + msg + " from " + client.getInfo("loginID"));
     this.sendToAllClients("Client " + client.getInfo("loginID") + " > " + msg); //original was this.sendToAllClients(msg)
   }
@@ -122,7 +122,7 @@ public class EchoServer extends AbstractServer
    */
   @Override
   synchronized protected void clientDisconnected(ConnectionToClient client) {
-	  System.out.println("Client is disconnected.");
+	  System.out.println(client.getInfo("loginID") + " has disconnected.");
   }
   
   /**
@@ -165,7 +165,7 @@ public class EchoServer extends AbstractServer
    * listening, serverStopped() will also be called.
    */
   protected void serverClosed() {
-	  System.out.println("Server is closed.");
+	  System.out.println("The server has shut down.");
   }
   
   //Class methods ***************************************************
