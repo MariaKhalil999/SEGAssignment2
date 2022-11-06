@@ -1,4 +1,1 @@
-Assignment 2 
-Name: Maria Khalil
-Student number: 300242332
-Course: SEG2105[A]
+Assignment 2 SimpleChat Application for SEG2105[A] by Maria Khalil (student number: 300242332).
