@@ -16,6 +16,7 @@ import common.*;
  * @author Fran&ccedil;ois B&eacute;langer
  * @author Dr Timothy C. Lethbridge  
  * @author Dr Robert Lagani&egrave;re
+ * @author Maria Khalil (student number: 300242332)
  * @version September 2020
  */
 public class ClientConsole implements ChatIF 
@@ -76,7 +77,7 @@ public class ClientConsole implements ChatIF
    * This method waits for input from the console.  Once it is 
    * received, it sends it to the client's message handler.
    */
-  public void accept() 
+  public void accept() throws Exception
   {
     try
     {
@@ -138,7 +139,12 @@ public class ClientConsole implements ChatIF
     
     ClientConsole chat= new ClientConsole(host, port);
     //ClientConsole chat= new ClientConsole(host, DEFAULT_PORT);
+    try {
     chat.accept();  //Wait for console data
+    }
+    catch(Exception e) {
+    	System.out.println("b");
+    }
   }
 }
 //End of ConsoleChat class

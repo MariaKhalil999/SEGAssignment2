@@ -15,6 +15,7 @@ import java.io.*;
  * @author Dr Robert Lagani&egrave;re
  * @author Fran&ccedil;ois B&eacute;langer
  * @author Paul Holden
+ * @author Maria Khalil (student number: 300242332)
  * @version July 2000
  */
 public class EchoServer extends AbstractServer 
@@ -31,7 +32,7 @@ public class EchoServer extends AbstractServer
    * The interface type variable.  It allows the implementation of 
    * the display method in the server.
    */
-  ChatIF serverUI;
+  //ChatIF serverUI;
   
   //Constructors ****************************************************
   
@@ -53,11 +54,11 @@ public class EchoServer extends AbstractServer
    * @param port The port number to connect on.
    * @param serverUI The interface type variable.
    */
-  public EchoServer(int port, ChatIF serverUI) {
-	  super(port);
-	  this.serverUI = serverUI;
-  }
-  
+//  public EchoServer(int port, ChatIF serverUI) {
+//	  super(port);
+//	  this.serverUI = serverUI;
+//  }
+//  
   
 
   
@@ -65,9 +66,9 @@ public class EchoServer extends AbstractServer
   
   //Exercise 2b
   
-  public void handleMessageFromServerUI(String message) {
-	  
-  }
+//  public void handleMessageFromServerUI(String message) {
+//	  
+//  }
   
   /**
    * This method handles any messages received from the client.
@@ -141,6 +142,15 @@ public class EchoServer extends AbstractServer
   {
     System.out.println
       ("Server has stopped listening for connections.");
+  }
+  /**
+   * Hook method called when the server is clased.
+   * The default implementation does nothing. This method may be
+   * overriden by subclasses. When the server is closed while still
+   * listening, serverStopped() will also be called.
+   */
+  protected void serverClosed() {
+	  System.out.println("Server is closed.");
   }
   
   //Class methods ***************************************************

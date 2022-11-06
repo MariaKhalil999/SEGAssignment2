@@ -15,6 +15,7 @@ import java.io.*;
  * @author Dr Timothy C. Lethbridge
  * @author Dr Robert Lagani&egrave;
  * @author Fran&ccedil;ois B&eacute;langer
+ * @author Maria Khalil (student number: 300242332)
  * @version July 2000
  */
 public class ChatClient extends AbstractClient
@@ -101,7 +102,6 @@ public class ChatClient extends AbstractClient
    * This method handles commands that the user of the client types, in order to 
    * perform special functions.
    * 
-   * @param command
    * @throws IOException
    */
   public void handleCommand(String message) throws IOException{ //Exercise 2a
@@ -158,7 +158,7 @@ public class ChatClient extends AbstractClient
 	  }
 		  
 	  
-	  //for login, make the message "Unable to login when already logged in."
+	
 	  
 //	  String[] splitCommand = message.split(" ", 2);
 //	  String command = splitCommand[0];
@@ -184,8 +184,7 @@ public class ChatClient extends AbstractClient
 	 * thread that is waiting for messages from the server. The method may be
 	 * overridden by subclasses.
 	 * 
-	 * @param exception
-	 *            the exception raised.
+	 * @param exception The exception raised.
 	 */
   @Override
   protected void connectionException(Exception e) { //Exercise 1a
